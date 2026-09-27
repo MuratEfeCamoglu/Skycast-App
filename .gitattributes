@@ -1,0 +1,7 @@
+# Flutter platform folders are auto-generated; exclude them from GitHub language stats
+android/** linguist-vendored
+ios/** linguist-vendored
+macos/** linguist-vendored
+linux/** linguist-vendored
+windows/** linguist-vendored
+web/** linguist-vendored
