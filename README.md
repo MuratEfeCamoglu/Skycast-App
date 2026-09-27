@@ -53,9 +53,8 @@ Gerçek zamanlı hava durumu verilerini şık ve modern bir arayüzle sunan Flut
 | [`http`](https://pub.dev/packages/http) | `^1.2.0` | OpenWeatherMap REST API çağrıları |
 | [`fl_chart`](https://pub.dev/packages/fl_chart) | `^1.2.0` | Sıcaklık çizgi grafiği |
 | [`flutter_animate`](https://pub.dev/packages/flutter_animate) | `^4.5.2` | UI animasyonları ve geçiş efektleri |
-| [`lucide_icons`](https://pub.dev/packages/lucide_icons) | `^0.257.0` | Modern vektör ikon seti |
+| [`lucide_icons_flutter`](https://pub.dev/packages/lucide_icons_flutter) | `^3.1.20` | Modern vektör ikon seti |
 | [`url_launcher`](https://pub.dev/packages/url_launcher) | `^6.3.2` | Harita linklerini tarayıcıda açma |
-| [`cupertino_icons`](https://pub.dev/packages/cupertino_icons) | `^1.0.8` | iOS stil ikonlar |
 
 ### Harici API
 - [OpenWeatherMap API](https://openweathermap.org/api)
@@ -100,20 +99,25 @@ cd skycast-weather
 # 2. Bağımlılıkları yükle
 flutter pub get
 
-# 3. API key'ini ayarla
-# lib/services/weather_service.dart dosyasını aç ve şunu güncelle:
-# static const String _apiKey = 'SENIN_API_KEYIN';
+# 3. API key'ini ayarla (dart_defines.json git'e eklenmez)
+cp dart_defines.example.json dart_defines.json
+# dart_defines.json içindeki OWM_API_KEY değerini kendi key'inle değiştir
 
 # 4. Uygulamayı çalıştır
-flutter run
+flutter run --dart-define-from-file=dart_defines.json
+
+# APK almak için
+flutter build apk --release --dart-define-from-file=dart_defines.json
 ```
+
+> API key verilmeden çalıştırılırsa uygulama örnek veriyle açılır.
 
 ### 🔑 API Key Alma
 
 1. [openweathermap.org](https://openweathermap.org/) adresine git
 2. Ücretsiz hesap oluştur
 3. **API Keys** sekmesinden key'ini kopyala
-4. `lib/services/weather_service.dart` dosyasında `_apiKey` sabitini güncelle
+4. `dart_defines.json` dosyasındaki `OWM_API_KEY` değerine yapıştır
 
 > ⚠️ Yeni oluşturulan API key'lerin aktif olması **1-2 saat** sürebilir.
 

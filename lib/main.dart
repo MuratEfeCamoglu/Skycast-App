@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'models/weather_models.dart';
 import 'services/weather_service.dart';
 import 'screens/weatherscreen.dart';
@@ -67,7 +67,9 @@ class _MainShellState extends State<MainShell> {
     } catch (e) {
       final msg = e.toString();
       String userMsg;
-      if (msg.contains('401') || msg.contains('Unauthorized') || msg.contains('Invalid API')) {
+      if (msg.contains('API key tanımlı değil')) {
+        userMsg = '⚠️ API key tanımlı değil. Örnek veri gösteriliyor.';
+      } else if (msg.contains('401') || msg.contains('Unauthorized') || msg.contains('Invalid API')) {
         userMsg = '⚠️ API key henüz aktif değil. Yeni key\'ler 1-2 saat içinde aktif olur.';
       } else if (msg.contains('404') || msg.contains('bulunamadı')) {
         userMsg = '❌ "$city" şehri bulunamadı. Şehir adını kontrol edin.';

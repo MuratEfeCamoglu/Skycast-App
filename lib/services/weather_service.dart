@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import '../models/weather_models.dart';
 
 class WeatherService {
-  static const String _apiKey = '04f61c82fc9711bf0d60b6dd4e05a80c'; // OpenWeatherMap API key buraya
+  // Derleme sırasında verilir: --dart-define-from-file=dart_defines.json
+  static const String _apiKey = String.fromEnvironment('OWM_API_KEY');
   static const String _baseUrl = 'https://api.openweathermap.org/data/2.5';
 
   // Hava durumu ikonunu Türkçe durum stringine çevir
@@ -26,6 +27,10 @@ class WeatherService {
 
   // Şehir adına göre güncel hava durumu ve tahmin verisi çek
   static Future<WeatherData> fetchWeather(String city) async {
+    if (_apiKey.isEmpty) {
+      throw Exception('API key tanımlı değil');
+    }
+
     // 1. Güncel Hava Durumu
     final currentUrl = Uri.parse(
       '$_baseUrl/weather?q=${Uri.encodeComponent(city)}&appid=$_apiKey&units=metric&lang=tr',
@@ -162,18 +167,6 @@ class WeatherService {
       hourly: hourlyList,
       daily: dailyList,
     );
-  }
-
-  // Şehir koordinatlarıyla hava durumu getir
-  static Future<WeatherData> fetchWeatherByCoords(double lat, double lon) async {
-    final currentUrl = Uri.parse(
-      '$_baseUrl/weather?lat=$lat&lon=$lon&appid=$_apiKey&units=metric&lang=tr',
-    );
-    final resp = await http.get(currentUrl);
-    if (resp.statusCode != 200) throw Exception('Konum verisi alınamadı');
-    final json = jsonDecode(resp.body) as Map<String, dynamic>;
-    final cityName = json['name'] as String;
-    return fetchWeather(cityName);
   }
 
   static String _windDirection(int deg) {
